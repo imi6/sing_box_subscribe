@@ -39,10 +39,6 @@
             }
         ],
         "rules": [
-      {
-        "outbound": "any",
-        "server": "dns_local"
-      },
             {
                 "clash_mode": "Direct",
                 "action": "route",
@@ -58,10 +54,6 @@
                     "A",
                     "AAAA"
                 ],
-                "action": "route",
-                "server": "dns_fakeip"
-            },
-            {
                 "rule_set": [
                     "geosite-facebook",
                     "geosite-google",
@@ -73,7 +65,9 @@
                     "geosite-openai",
                     "geosite-microsoft",
                     "geosite-geolocation-!cn",
-                    "geosite-proxy"
+                    "geosite-proxy",
+                    "geosite-talk",
+                    "geosite-freenom"
                 ],
                 "action": "route",
                 "server": "dns_fakeip"
@@ -86,6 +80,13 @@
                     "geosite-pt"
                 ],
                 "server": "dns_local"
+            },
+            {
+                "rule_set": [
+                    "geosite-AWAvenue-Ads",
+                    "geosite-category-ads-all"
+                ],
+                "action": "reject"
             }
         ],
         "independent_cache": true,
@@ -182,85 +183,111 @@
         },
         "rules": [
             {
-              "action": "sniff"
+                "action": "sniff"
             },
             {
-              "type": "logical",
-              "mode": "or",
-              "rules": [
-                {
-                  "port": 53
-                },
-                {
-                  "protocol": "dns"
-                }
-              ],
-              "action": "hijack-dns"
+                "type": "logical",
+                "mode": "or",
+                "rules": [
+                    {
+                        "port": 53
+                    },
+                    {
+                        "protocol": "dns"
+                    }
+                ],
+                "action": "hijack-dns"
             },
             {
-              "clash_mode": "Direct",
-              "action": "route",
-              "outbound": "out-direct"
+                "clash_mode": "Direct",
+                "action": "route",
+                "outbound": "out-direct"
             },
             {
-              "ip_is_private": true,
-              "action": "route",
-              "outbound": "out-direct"
+                "rule_set": [
+                    "geosite-telegram",
+                    "geoip-telegram"
+                ],
+                "action": "route",
+                "outbound": "📲telegram"
             },
             {
-              "rule_set": [
-                "geosite-telegram",
-                "geoip-telegram"
-              ],
-              "action": "route",
-              "outbound": "📲telegram"
+                "rule_set": [
+                    "geosite-openai",
+                    "geosite-talk",
+                    "geoip-talk"
+                ],
+                "action": "route",
+                "outbound": "🤖AI"
             },
             {
-              "rule_set": "geosite-openai",
-              "action": "route",
-              "outbound": "🤖AI"
+                "rule_set": [
+                    "geosite-freenom"
+                ],
+                "action": "route",
+                "outbound": "🚀网名大佬"
             },
             {
-              "rule_set": [
-                "geosite-private",
-                "geoip-private",
-                "geoip-cn",
-                "geosite-cn",
-                "cn-site",
-                "cn-ipv4",
-                "cn-ipv6",
-                "geosite-pt"
-              ],
-              "action": "route",
-              "outbound": "out-direct"
+                "ip_is_private": true,
+                "rule_set": [
+                    "geosite-private",
+                    "geoip-private",
+                    "geoip-cn",
+                    "geosite-cn",
+                    "cn-site",
+                    "cn-ipv4",
+                    "cn-ipv6",
+                    "geosite-pt"
+                ],
+                "action": "route",
+                "outbound": "out-direct"
             },
             {
-              "rule_set": [
-                "geoip-facebook",
-                "geosite-facebook",
-                "geoip-google",
-                "geosite-google",
-                "geosite-youtube",
-                "geosite-twitter",
-                "geoip-twitter",
-                "geosite-netflix",
-                "geoip-netflix",
-                "geosite-microsoft",
-                "geosite-tumblr",
-                "geosite-geolocation-!cn",
-                "geosite-proxy"
-              ],
-              "action": "route",
-              "outbound": "🚀代理"
+                "rule_set": [
+                    "geoip-facebook",
+                    "geosite-facebook",
+                    "geoip-google",
+                    "geosite-google",
+                    "geosite-youtube",
+                    "geosite-twitter",
+                    "geoip-twitter",
+                    "geosite-netflix",
+                    "geoip-netflix",
+                    "geosite-microsoft",
+                    "geosite-tumblr",
+                    "geosite-geolocation-!cn",
+                    "geosite-proxy"
+                ],
+                "action": "route",
+                "outbound": "🚀代理"
             }
-          ],
+        ],
+        "auto_detect_interface": true,
+        "find_process": true,
+        "final": "🐠漏网之鱼",
         "rule_set": [
             {
                 "type": "remote",
                 "tag": "geosite-pt",
                 "format": "source",
                 "update_interval": "24h",
-                "url": "https://raw.githubusercontent.com/imi6/xiaoyuan/refs/heads/master/pt.json",
+                "url": "https://raw.githubusercontent.com/imi6/sing-box-rule/refs/heads/main/pt.json",
+                "download_detour": "🎁收集"
+            },
+            {
+                "type": "remote",
+                "tag": "geosite-AWAvenue-Ads",
+                "format": "binary",
+                "update_interval": "24h",
+                "url": "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Singbox.srs",
+                "download_detour": "🎁收集"
+            },
+            {
+                "type": "remote",
+                "tag": "geosite-category-ads-all",
+                "format": "binary",
+                "update_interval": "24h",
+                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/category-ads-all.srs",
                 "download_detour": "🎁收集"
             },
             {
@@ -409,6 +436,30 @@
             },
             {
                 "type": "remote",
+                "tag": "geosite-talk",
+                "format": "source",
+                "update_interval": "24h",
+                "url": "https://raw.githubusercontent.com/imi6/sing-box-rule/refs/heads/main/geosite-zytalk.json",
+                "download_detour": "🎁收集"
+            },
+            {
+                "type": "remote",
+                "tag": "geoip-talk",
+                "format": "source",
+                "update_interval": "24h",
+                "url": "https://raw.githubusercontent.com/imi6/sing-box-rule/refs/heads/main/geoip-zytalk.json",
+                "download_detour": "🎁收集"
+            },
+            {
+                "type": "remote",
+                "tag": "geosite-freenom",
+                "format": "source",
+                "update_interval": "24h",
+                "url": "https://raw.githubusercontent.com/imi6/sing-box-rule/refs/heads/main/freenom.json",
+                "download_detour": "🎁收集"
+            },
+            {
+                "type": "remote",
                 "tag": "geoip-cn",
                 "format": "binary",
                 "update_interval": "24h",
@@ -447,9 +498,6 @@
                 "url": "https://raw.githubusercontent.com/Dreista/sing-box-rule-set-cn/rule-set/maxmind-cn-ipv6.srs",
                 "download_detour": "🎁收集"
             }
-        ],
-        "find_process": true,
-        "auto_detect_interface": true,
-        "final": "🐠漏网之鱼"
+        ]
     }
 }
